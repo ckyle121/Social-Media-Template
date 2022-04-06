@@ -84,9 +84,9 @@ const userController = {
     // add a friend 
     addFriend({ params }, res) {
         User.findOneAndUpdate(
-            {_id: params.id}, 
-            {$push: { friends: params.friendId}}, 
-            {new: true})
+            { _id: params.id }, 
+            { $push: { friends: params.friendId} }, 
+            { new: true })
             .populate({path: 'friends', select: '-__v'})
             .select('-__v')
             .then(dbUsersData => {
@@ -116,6 +116,6 @@ const userController = {
             })
             .catch(err => res.status(400).json(err));
     }
-}
+};
 
 module.exports = userController;
