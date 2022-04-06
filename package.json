@@ -1,0 +1,24 @@
+{
+  "name": "social-media-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ckyle121/Social-Media-Template.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ckyle121/Social-Media-Template/issues"
+  },
+  "homepage": "https://github.com/ckyle121/Social-Media-Template#readme",
+  "dependencies": {
+    "date-and-time": "^2.3.0"
+  }
+}
