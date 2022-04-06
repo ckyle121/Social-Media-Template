@@ -6,14 +6,14 @@ const thoughtController = {
         Thought.create(body)
         .then(({_id}) => {
             return User.findOneAndUpdate(
-                { _id: params.userId}, 
-                {$push: {thought: _id}}, 
-                {new: true}
+                {  _id: params.userId }, 
+                { $push: { thoughts: _id } }, 
+                { new: true }
                 );
         })
         .then(dbThoughtsData => {
             if(!dbThoughtsData) {
-                res.status(404).json({message: 'No thought found with this id'});
+                res.status(404).json({ message: 'No thought found with this id' });
                 return;
             }
             res.json(dbThoughtsData)
@@ -37,7 +37,7 @@ const thoughtController = {
 
     // get single thought by ID 
     getThoughtById({ params }, res){
-        Thought.findOne({ _id: params.id})
+        Thought.findOne({ _id: params.id })
             .populate({
                 path: 'reactions',
                 select: '-__v'
@@ -58,7 +58,7 @@ const thoughtController = {
     },
 
     // update a thought by id
-    updateThought({ params }, res){
+    updateThought({ params, body }, res){
         Thought.findOneAndUpdate({ _id: params.id}, body, { new: true, runValidators: true })
             .then(dbThoughtData => {
                 // if no user found, send 404
@@ -88,13 +88,11 @@ const thoughtController = {
     },
     
     // add a reaction 
-    addReaction({ params }, res) {
+    addReaction({ params, body }, res) {
         Thought.findOneAndUpdate(
-            { _id: params.ThoughtId }, 
+            { _id: params.thoughtId }, 
             { $push: { reactions: body } }, 
             { new: true, runValidators: true })
-            .populate({path: 'friends', select: '-__v'})
-            .select('-__v')
             .then(dbThoughtData => {
                 if(!dbThoughtData) {
                     res.status(404).json({message: 'No thought with this particular ID!'});
@@ -102,20 +100,19 @@ const thoughtController = {
                 }
                 res.json(dbThoughtData);
             })
-            .catch(err => res.status(400).json(err));
+            .catch(err => res.status(500).json(err));
     },
 
     // delete a reaction 
     deleteReaciton({ params }, res) {
-        User.findOneAndUpdate(
-            {_id: params.id}, 
-            {$pull: { friends: params.friendId}}, 
-            {new: true})
-            .populate({path: 'friends', select: '-__v'})
-            .select('-__v')
+        Thought.findOneAndUpdate(
+            { _id: params.thoughtId }, 
+            { $pull: { reactions: { reactionId: params.reactionId } } }, 
+            { new: true }
+        )
             .then(dbThoughtData => {
                 if(!dbThoughtData) {
-                    res.status(404).json({message: 'No thought with this particular ID!'});
+                    res.status(404).json({ message: 'No thought with this particular ID!' });
                     return;
                 }
                 res.json(dbThoughtData);

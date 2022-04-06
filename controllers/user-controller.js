@@ -12,7 +12,7 @@ const userController = {
     getAllUsers(req, res){
         User.find({})
             // populate user thoughts
-            .populate({ path: 'thought', select: '-__v '})
+            .populate({ path: 'thoughts', select: '-__v '})
             // populate user friends
             .populate({ path: 'friends', select: '-__v '})
             .select('-__v')
@@ -27,9 +27,9 @@ const userController = {
     
     // get single user by ID 
     getUserById({ params }, res){
-        User.findOne({ _id: params.id})
+        User.findOne({ _id: params.id })
             .populate({
-                path: 'thought',
+                path: 'thoughts',
                 select: '-__v'
             })
             .populate({
@@ -52,7 +52,7 @@ const userController = {
     },
 
     // update a user by id
-    updateUser({ params }, res){
+    updateUser({ params, body }, res){
         User.findOneAndUpdate({ _id: params.id}, body, { new: true, runValidators: true })
             .then(dbUserData => {
                 // if no user found, send 404
@@ -86,9 +86,8 @@ const userController = {
         User.findOneAndUpdate(
             { _id: params.id }, 
             { $push: { friends: params.friendId} }, 
-            { new: true })
-            .populate({path: 'friends', select: '-__v'})
-            .select('-__v')
+            { new: true }
+        )
             .then(dbUsersData => {
                 if(!dbUsersData) {
                     res.status(404).json({message: 'No User with this particular ID!'});
@@ -102,11 +101,9 @@ const userController = {
     // delete a current friend
     deleteFriend({ params }, res) {
         User.findOneAndUpdate(
-            {_id: params.id}, 
-            {$pull: { friends: params.friendId}}, 
-            {new: true})
-            .populate({path: 'friends', select: '-__v'})
-            .select('-__v')
+            { _id: params.id }, 
+            { $pull: { friends: params.friendId } }, 
+            { new: true })
             .then(dbUsersData => {
                 if(!dbUsersData) {
                     res.status(404).json({message: 'No User with this particular ID!'});
