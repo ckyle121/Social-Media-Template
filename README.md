@@ -2,7 +2,7 @@
 This is a project provides a template for the APIs on the backend for a social network web application. It allows users to share their thoughts, are able to react to friend's thoughts, and create a friends list. This NoSQL database is designed for social media applications because the database can handle large amounts of unstructured data.
 
 ## Walkthrough Video of API requests: 
-
+https://drive.google.com/file/d/1MieXiIRS1ZzA8vQFvo6SkWMNcdZltlwe/view
 
 ## Models
 * User
