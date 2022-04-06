@@ -19,6 +19,8 @@
   },
   "homepage": "https://github.com/ckyle121/Social-Media-Template#readme",
   "dependencies": {
-    "date-and-time": "^2.3.0"
+    "date-and-time": "^2.3.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.10"
   }
 }
